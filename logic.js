@@ -92,8 +92,10 @@ $("#submit-bid").on("click", function(event) {
     employeeName: employeeName,
     role: role,
     startDate: startDate,
+    monthsWorked: monthsWorked ,
     monthlyRate: monthlyRate,
-    dateAdded: firebase.database.ServerValue.TIMESTAMP
+    totalBilled: totalBilled,
+    
   });
 
     // Log the new High Price
@@ -111,17 +113,17 @@ $("#submit-bid").on("click", function(event) {
 
 
       // full list of items to the well
-      $("#full-member-list").append("<div class='well'><span id='name'> " + childSnapshot.val().employeeName +
-        " </span><span id='email'> " + childSnapshot.val().role +
-        " </span><span id='age'> " + childSnapshot.val().startDate +
-        " </span><span id='comment'> " + childSnapshot.val().monthlyRate + " </span></div>");
+      $(".table").append("<tr class='well'><td id='name'> " + childSnapshot.val().employeeName +
+        " </td><td id='email'> " + childSnapshot.val().role +
+        " </td><td id='age'> " + childSnapshot.val().startDate +
+        " </td><td id='comment'> " + childSnapshot.val().monthlyRate + " </span></tr>");
 
     // Handle the errors
     }, function(errorObject) {
       console.log("Errors handled: " + errorObject.code);
     });
 
-    dataRef.ref().orderByChild("dateAdded").limitToLast(1).on("child_added", function(snapshot) {
+    database.ref().orderByChild("dateAdded").limitToLast(1).on("child_added", function(snapshot) {
 
       // Change the HTML to reflect
       $("#name-display").text(snapshot.val().name);
