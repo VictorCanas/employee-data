@@ -97,7 +97,38 @@ $("#submit-bid").on("click", function(event) {
   });
 
     // Log the new High Price
+
     console.log(employeeName);
+
+
+    database.ref().on("child_added", function(childSnapshot) {
+
+      // Log everything that's coming out of snapshot
+      console.log(childSnapshot.val().employeeName);
+      console.log(childSnapshot.val().role);
+      console.log(childSnapshot.val().startDate);
+      console.log(childSnapshot.val().monthlyRate);
+
+
+      // full list of items to the well
+      $("#full-member-list").append("<div class='well'><span id='name'> " + childSnapshot.val().employeeName +
+        " </span><span id='email'> " + childSnapshot.val().role +
+        " </span><span id='age'> " + childSnapshot.val().startDate +
+        " </span><span id='comment'> " + childSnapshot.val().monthlyRate + " </span></div>");
+
+    // Handle the errors
+    }, function(errorObject) {
+      console.log("Errors handled: " + errorObject.code);
+    });
+
+    dataRef.ref().orderByChild("dateAdded").limitToLast(1).on("child_added", function(snapshot) {
+
+      // Change the HTML to reflect
+      $("#name-display").text(snapshot.val().name);
+      $("#email-display").text(snapshot.val().email);
+      $("#age-display").text(snapshot.val().age);
+      $("#comment-display").text(snapshot.val().comment);
+    });
 
 
     // dataRef.ref().on("child_added", function(childSnapshot)) {
